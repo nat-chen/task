@@ -1,0 +1,59 @@
+body {
+  font-family: 'Courier New', Courier, monospace;
+}
+
+li {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+}
+
+.clearfix::after {
+	content: '';
+	display: block;
+	clear: both;
+}
+
+.top-nav-bar {
+  padding-left: 20px;
+  padding-bottom: 18px;
+}
+
+.top-nav-bar .logo span {
+  padding-top: 5px;
+  font-size: 40px;
+	color: rgb(20, 168, 149);
+	font-weight: bold;
+}
+
+.top-nav-bar .logo .card {
+  color: rgb(124, 119, 119);
+  font-size: 36px;
+}
+
+.top-nav-bar .logo {
+	float: left;
+	padding-top: 5px;
+}
+
+.top-nav-bar nav {
+	float: right;
+}
+
+.top-nav-bar ul li {
+	float: left;
+}
+
+.top-nav-bar nav a {
+	padding: 14px 18px;
+	font-weight: bold;
+	font-size: 18px;
+	color: rgb(124, 119, 119);
+}
+
+.top-nav-bar nav a:hover {
+	border-bottom: 5px solid rgb(20, 168, 149); 	
+}
+
