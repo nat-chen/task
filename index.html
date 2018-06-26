@@ -1,101 +1,94 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Nat Chen 的个人简历</title>
-    <link rel="stylesheet" href="./style.css">
-  </head>
-  <body>
-    <div class="top-nav-bar clearfix">
-      <a class="logo" href="#" alt="logo">
-        <span class="rs">RS</span>
-        <span class="card">card</span>
-      </a>
-      <nav>
-        <ul class="clearfix">
-          <li><a href="#">关于</a></li>
-          <li><a href="#">技能</a></li>
-          <li><a href="#">作品</a></li>
-          <li><a href="#">博客</a></li>
-          <li><a href="#">日历</a></li>
-          <li><a href="#">联系方式</a></li>
-          <li><a href="#">其他</a><li>
-        </ul>
-      </nav>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="style.css" rel="stylesheet">
+  <title>test</title>
+  <style>
+    .red{
+      color: red;
+    }
+
+    .images {
+      display: flex;
+      align-items: flex-start;
+      transition: all 0.5s;
+    }
+
+    .images > img {
+      vertical-align: top;
+    }
+
+    .window {
+      width: 300px;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div class="window">
+    <div class="images" id=images>
+      <img src="https://fthmb.tqn.com/0ui_Zw01Ht9NHJkSBlqOIC1IH44=/960x0/filters:no_upscale()/yorkshire-terrier-583788122-581630e85f9b581c0b018a00.jpg" width=300 alt="图片1" height=200>
+      <img src="https://canna-pet.com/wp-content/uploads/2017/06/20-longest-living-dog-breeds_canna-pet-e1498599846169.jpg" width=300 alt="" height=200>
+      <img src="https://fthmb.tqn.com/0ui_Zw01Ht9NHJkSBlqOIC1IH44=/960x0/filters:no_upscale()/yorkshire-terrier-583788122-581630e85f9b581c0b018a00.jpg" width=300 alt="" height=200>
+      <img src="https://canna-pet.com/wp-content/uploads/2017/06/20-longest-living-dog-breeds_canna-pet-e1498599846169.jpg" width=300 alt="" height=200>
     </div>
-    <div class="banner"></div>
-    <main>
-      <div class="card">
-        <div class="picture-and-text">
-          <div class="picture">
-            <img src="" alt="头像">
-          </div>
-          <div class="text">
-            <div class="profile">
-              <span class="welcome">hello</span>
-              <h1>Nat Chen</h1>
-              <p>前端开发工程师</p>
-              <hr>
-              <dl>
-                <dt>年龄</dt>
-                <dd>26</dd>
-                <dt>所在城市</dt>
-                <dd>深圳</dd>
-                <dt>邮箱</dt>
-                <dd>chen_natalie@outlook.com</dd>
-                <dt>手机</dt>
-                <dd>18665949858</dd>
-              </dl>
-            </div>
-          </div>
-        </div>
-        <footer>
-          <a href="#">
-            <img src="#" alt="...">
-          </a>
-          <a href="#">
-            <img src="#" alt="...">
-          </a>
-          <a href="#">
-            <img src="#" alt="...">
-          </a>
-          <a href="#">
-            <img src="#" alt="...">
-          </a>
-          <a href="#">
-            <img src="#" alt="...">
-          </a>
-        </footer>
-      </div>
-      <a class="button" href="#">下载 PDF 简历</a>
-      <p>
-        Nat Chen, 前端工程师， 前端工程师， 前端工程师， 前端工程师， 前端工程师， 前端工程师， 前端工程师， 前端工程师
-      </p>
-    </main>
-    <section>
-      <h2>技能</h2>
-      <ol>
-        <li>HTML5 &amp; CSS3</li>
-        <li>JavaScript</li>
-        <li>jQuery</li>
-        <li>Vue</li>
-        <li>React</li>
-        <li>HTTP</li>
-      </ol>
-    </section>
-    <section>
-      <h2>作品集</h2>
-      <nav>
-        <ol>
-          <li>所有</li>
-          <li>框架</li>
-          <li>原生 JS &amp; CSS</li>
-        <ol>
-      <nav>
-      <div class="jobs">
-        <div class="big"></div>
-        <div class="small"></div>
-        <div class="small"></div>
-      </div>
-    </section>
-  </body>
+  </div>
+  <div id=buttons>
+    <button>第1张</button>
+    <button>第2张</button>
+    <button>第3张</button>
+    <button>第4张</button>
+  </div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+crossorigin="anonymous"></script>
+<script>
+var allButtons = document.querySelectorAll('div > button');
+var imagesBox = document.querySelectorAll('div#images')[0];
+var currentIndex = 0;
+var timerId = null;
+
+allButtons.forEach(function(button, index) {
+  button.addEventListener('click', function() {
+    currentIndex = index;
+    imagesBox.style.transform = `translateX(${currentIndex * -300}px)`;
+    activeButton(currentIndex);
+  }, false);
+});
+
+function activeButton(currentIndex) {
+  allButtons.forEach(function(button, index) {
+    if (currentIndex == index) {
+      button.classList.add('red');
+    } else {
+      button.classList.remove('red');
+    }
+  })
+}
+
+function set() {
+  var index = currentIndex;
+  timerId = setInterval(function() {
+    currentIndex = (index++) % allButtons.length;
+    allButtons[currentIndex].click(); 
+  }, 3000);
+}
+
+set();
+
+function mouseEvent() {
+  imagesBox.addEventListener('mouseenter', function() {
+    clearInterval(timerId);
+  });
+  imagesBox.addEventListener('mouseleave', function() {
+    set();
+  });
+}
+
+mouseEvent();
+</script>
+</body>
 </html>

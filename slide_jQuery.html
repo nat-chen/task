@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>轮播图 jQuery 版实现</title>
+  <style>
+    .images {
+      display: flex;
+      transition: all 0.5s;
+    }
+
+    .window {
+      width: 300px;
+      overflow: hidden;
+    }
+
+    .red {
+      background: red;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="window">
+    <div class="images" id=images>
+      <img src="https://fthmb.tqn.com/0ui_Zw01Ht9NHJkSBlqOIC1IH44=/960x0/filters:no_upscale()/yorkshire-terrier-583788122-581630e85f9b581c0b018a00.jpg" width=300 alt="图片1" height=200>
+      <img src="https://canna-pet.com/wp-content/uploads/2017/06/20-longest-living-dog-breeds_canna-pet-e1498599846169.jpg" width=300 alt="" height=200>
+      <img src="https://fthmb.tqn.com/0ui_Zw01Ht9NHJkSBlqOIC1IH44=/960x0/filters:no_upscale()/yorkshire-terrier-583788122-581630e85f9b581c0b018a00.jpg" width=300 alt="" height=200>
+      <img src="https://canna-pet.com/wp-content/uploads/2017/06/20-longest-living-dog-breeds_canna-pet-e1498599846169.jpg" width=300 alt="" height=200>
+    </div>
+  </div>
+  <div id=buttons>
+    <button>第1张</button>
+    <button>第2张</button>
+    <button>第3张</button>
+    <button>第4张</button>
+  </div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.js"
+    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous">
+</script>
+<script>
+
+(function() {
+  var allButtons = $('button');
+  var n = 0;
+  var size = allButtons.length;
+  var timerId = setTimer()
+
+  for (let i = 0; i < allButtons.length; i++) {
+    $(allButtons[i]).on('click', function(x) {
+      var index = $(x.currentTarget).index()
+      var p = index * -300
+      $('#images').css({
+        transform: 'translate(' + p + 'px)'
+      })
+      n = index
+      activeButton(allButtons.eq(n))
+    })
+  }
+
+  $('.window').on('mouseenter', function() {
+    window.clearInterval(timerId)
+  })
+
+  $('.window').on('mouseleave', function() {
+    timerId = setTimer()
+  })
+
+  allButtons.eq(n % size).trigger('click')
+
+  function setTimer() {
+    return setInterval(() => {
+      n += 1
+      allButtons.eq(n % size).trigger('click')
+    }, 3000)
+  }
+
+  function activeButton($button) {
+    $button
+      .addClass('red')
+      .siblings('.red').removeClass('red')
+  }
+})();
+
+
+</script>
+</body>
+</html>
