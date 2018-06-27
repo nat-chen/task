@@ -4,91 +4,86 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <link href="style.css" rel="stylesheet">
-  <title>test</title>
+  <title>原生 JS 无缝轮播</title>
   <style>
-    .red{
-      color: red;
+    div#slide {
+      width: 400px;
+      height: 400px;
+      margin: 30px auto;
+      overflow: hidden;
+      position: relative;
     }
-
-    .images {
-      display: flex;
-      align-items: flex-start;
+    img {
+      position: absolute;
+      top: 0;
+      left: 100%;
       transition: all 0.5s;
     }
-
-    .images > img {
-      vertical-align: top;
+    img.current {
+      transform: translateX(-100%);
+      z-index: 10;
     }
 
-    .window {
-      width: 300px;
-      overflow: hidden;
+    img.leave {
+      transform: translateX(-200%);
+    }
+
+    img.enter {
+      transform: translateX(0%);
     }
   </style>
 </head>
 <body>
-  <div class="window">
-    <div class="images" id=images>
-      <img src="https://fthmb.tqn.com/0ui_Zw01Ht9NHJkSBlqOIC1IH44=/960x0/filters:no_upscale()/yorkshire-terrier-583788122-581630e85f9b581c0b018a00.jpg" width=300 alt="图片1" height=200>
-      <img src="https://canna-pet.com/wp-content/uploads/2017/06/20-longest-living-dog-breeds_canna-pet-e1498599846169.jpg" width=300 alt="" height=200>
-      <img src="https://fthmb.tqn.com/0ui_Zw01Ht9NHJkSBlqOIC1IH44=/960x0/filters:no_upscale()/yorkshire-terrier-583788122-581630e85f9b581c0b018a00.jpg" width=300 alt="" height=200>
-      <img src="https://canna-pet.com/wp-content/uploads/2017/06/20-longest-living-dog-breeds_canna-pet-e1498599846169.jpg" width=300 alt="" height=200>
-    </div>
-  </div>
-  <div id=buttons>
-    <button>第1张</button>
-    <button>第2张</button>
-    <button>第3张</button>
-    <button>第4张</button>
-  </div>
-
-<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-crossorigin="anonymous"></script>
+<div id="slide">
+  <img src="./images/1.png" class="current" alt="1">
+  <img src="./images/2.png" alt="2">
+  <img src="./images/3.png" alt="3">
+  <img src="./images/4.png" alt="4">
+  <img src="./images/5.png" alt="5">
+</div>
 <script>
-var allButtons = document.querySelectorAll('div > button');
-var imagesBox = document.querySelectorAll('div#images')[0];
-var currentIndex = 0;
-var timerId = null;
+var n = 0;
 
-allButtons.forEach(function(button, index) {
-  button.addEventListener('click', function() {
-    currentIndex = index;
-    imagesBox.style.transform = `translateX(${currentIndex * -300}px)`;
-    activeButton(currentIndex);
+setInterval(function() {
+  var old = n;
+  makeLeave(n).addEventListener('transitionend', function callOnce(event) {
+    makeEnter(old);
+    event.currentTarget.removeEventListener('transitionend', callOnce, false);
   }, false);
-});
+  if (n != 4) {
+    makeCurrent(n++ + 1);
+  } else {
+    n = 0;
+    makeCurrent(0);
+  }
+}, 3000);
 
-function activeButton(currentIndex) {
-  allButtons.forEach(function(button, index) {
-    if (currentIndex == index) {
-      button.classList.add('red');
-    } else {
-      button.classList.remove('red');
-    }
-  })
+
+function getImage(n) {
+  return document.querySelector(`div#slide > img:nth-child(${n + 1})`)
 }
 
-function set() {
-  var index = currentIndex;
-  timerId = setInterval(function() {
-    currentIndex = (index++) % allButtons.length;
-    allButtons[currentIndex].click(); 
-  }, 3000);
+function makeCurrent(n) {
+  var image = getImage(n);
+  image.classList.add('current');
+  image.classList.remove('leave', 'enter');
+  return image;
 }
 
-set();
-
-function mouseEvent() {
-  imagesBox.addEventListener('mouseenter', function() {
-    clearInterval(timerId);
-  });
-  imagesBox.addEventListener('mouseleave', function() {
-    set();
-  });
+function makeLeave(n) {
+  var image = getImage(n);
+  image.classList.add('leave');
+  image.classList.remove('current', 'enter');
+  return image;
 }
 
-mouseEvent();
+function makeEnter(n) {
+  var image = getImage(n);
+  image.classList.add('enter');
+  image.classList.remove('leave', 'current');
+  return image;
+}
+
 </script>
 </body>
 </html>
